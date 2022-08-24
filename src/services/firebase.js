@@ -1,7 +1,8 @@
-const initializeApp = require('firebase/app');
+const firebase = require('firebase/app');
 const firestore =  require('firebase/firestore');
-const admin = require("firebase-admin");
-const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
+const{ getAuth, signInWithEmailAndPassword }= require("firebase/auth");
+
+const credentials = require("../serviceAccountKey.json");
 
 const firebaseConfig = {
     apiKey: "AIzaSyBqLBfXL_6B6PJhUC0RJSKKVf82fPsvRa4",
@@ -13,13 +14,13 @@ const firebaseConfig = {
     measurementId: "G-RLZKK191R2"
 };
 
-admin.initializeApp({
-  credential: admin.credential.cert(credentials),
-  databaseURL: "https://learn-6ed6d.firebaseio.com"
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(credentials),
+//   databaseURL: "https://learn-6ed6d.firebaseio.com"
+// });
 
 
-const app = initializeApp.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 
 const db = firestore.getFirestore(app);
 
@@ -43,9 +44,8 @@ const getParkings = async () => {
   return parkingsList;
 }
 
-const login = async (req, res) => {
+const login = async (email, password) => {
     try {
-        const { email, password } = req.body;
         const auth = getAuth();
         const result = await signInWithEmailAndPassword(auth, email, password)
         const user = {
@@ -54,30 +54,38 @@ const login = async (req, res) => {
             emailVerified: result.user.emailVerified,
             accessToken: result.user.stsTokenManager.accessToken,
         }
-        const message = 'Success';
-        return responseGenerator(res, OK.status, message, user);
+        return {
+            success: true,
+            user,
+            message: 'Exito!'
+        };
     } catch (err) {
-        return responseGenerator(res, INTERNAL_SERVER_ERROR.status, err.message);
+        console.log(err);
+        return {
+            success: false,
+            message: 'Error al autenticar'
+        };
     }
 };
 
-const signupWithEmail = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await admin.auth().createUser({
-            email,
-            password,
-            emailVerified: false,
-            disabled: false
-        });
-        const message = 'Success creating user';
-        return responseGenerator(res, OK.status, message, user);
-    } catch (err) {
-        return responseGenerator(res, INTERNAL_SERVER_ERROR.status, err.message);
-    }
-};
+// const signupWithEmail = async (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+//         const user = await admin.auth().createUser({
+//             email,
+//             password,
+//             emailVerified: false,
+//             disabled: false
+//         });
+//         const message = 'Success creating user';
+//         return res.status(200).json(user);
+//     } catch (err) {
+//         return res.status(200).json({ errMessage: 'Internal error'});
+//     }
+// };
 
 
 module.exports = {
   getParkings,
+  login
 }

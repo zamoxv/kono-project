@@ -1,5 +1,9 @@
 import React from "react";
 
-const Driver = () => {};
+const Driver = () => {
+    return (<>
+        Pagina de conductor!
+    </>)
+};
 
 export default Driver;
