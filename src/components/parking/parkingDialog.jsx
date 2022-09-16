@@ -134,7 +134,7 @@ const ParkingDialog = ({
                             />
                             <Typography variant="string" color="error">{formik.errors.appartment}</Typography>
                             <TextField
-                                label='Licencia Auto'
+                                label='Patente'
                                 onChange={formik.handleChange}
                                 id='license_plate'
                                 name='license_plate'
