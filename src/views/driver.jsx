@@ -1,9 +1,10 @@
 import React from "react";
 
 const Driver = () => {
-    return (<>
-        Pagina de conductor!
-    </>)
+    return (
+    <>
+    </>
+    );
 };
 
 export default Driver;

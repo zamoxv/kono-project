@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { logout, setUser } from '../actions/userAction';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/firebase';
+import { createParkings, login } from '../services/firebase';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -34,6 +34,15 @@ const Login = () => {
 
     } catch (error) {
       setError('Error al autenticar');
+    }
+  };
+
+  
+  const handleCreates = async () => {
+    try {
+      await createParkings();
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -78,6 +87,9 @@ const Login = () => {
                         </div>
                     </form>
                 </div>
+                <Button onClick={handleCreates}>
+                  Crear estacionamientos
+                </Button>
             </div>
         </>
   );
