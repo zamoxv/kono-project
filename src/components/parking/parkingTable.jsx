@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -32,7 +32,7 @@ const ParkingTable = ({ parkings, openRemove, setOpenRemove }) => {
                 { email ? <TableCell align="left">Patente</TableCell> : ''}
                 { email ? <TableCell align="left">RUT</TableCell> : ''}
                 <TableCell align="left">Usuario</TableCell>
-                { email ? <TableCell align="center">Cerrar reserva</TableCell> : ''}
+                { email ? <TableCell align="center">Eliminar registro</TableCell> : ''}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -45,8 +45,8 @@ const ParkingTable = ({ parkings, openRemove, setOpenRemove }) => {
                   <TableCell align="left">{row.busy ? 
                   <CircleIcon color="error" /> : 
                   <CircleIcon color="success"/>}</TableCell>
-                  { email ? <TableCell align="left">{row.start ? moment(row.start).format('DD/MM/yyyy hh:mm') : ''}</TableCell> : ''}
-                  <TableCell align="left">{row.end ? moment(row.end).format('DD/MM/yyyy hh:mm') : ''}</TableCell>
+                  { email ? <TableCell align="left">{row.start ? moment(row.start).format('DD/MM/yyyy HH:MM') : ''}</TableCell> : ''}
+                  <TableCell align="left">{row.end ? moment(row.end).format('DD/MM/yyyy HH:MM') : ''}</TableCell>
                   { email ? <TableCell align="left">{row.appartment}</TableCell> : ''}
                   { email ? <TableCell align="left">{row.license_plate}</TableCell> : ''}
                   { email ? <TableCell align="left">{row.rut}</TableCell> : ''}

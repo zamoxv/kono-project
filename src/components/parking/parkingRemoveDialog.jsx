@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { } from "react";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Button, TextField, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { deleteParking } from "../../services/firebase";
 
 const ParkingRemoveDialog = ({
@@ -28,7 +28,7 @@ const ParkingRemoveDialog = ({
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+          {"Eliminar reserva"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">

@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Autocomplete, Box, Button, TextField, Typography } from "@mui/material";
-import { getParkings, reserveParking } from "../../services/firebase";
+import { reserveParking } from "../../services/firebase";
 import { Stack } from "@mui/system";
-import { Formik, useFormik, Form, Field } from "formik";
+import { useFormik } from "formik";
 import moment from 'moment';
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import emailjs from '@emailjs/browser';
 
 const ParkingDialog = ({
     open,
@@ -21,6 +21,7 @@ const ParkingDialog = ({
 }) => {
     const [parkingNumbers, setParkingNumbers] = useState([]);
     const [parking, setParking] = useState('');
+    const [parkingNumber, setParkingNumber] = useState([]);
     const [start, setStart] = useState(moment());
 
     const validate = values => {
@@ -42,12 +43,36 @@ const ParkingDialog = ({
         if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test(values.rut)) {
             errors.rut = 'Rut incorrecto'; 
         }
+        if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        .test(values.email)) {
+            errors.email = 'Email incorrecto';
+        }
         return errors;
+    };
+
+    const fixDate = (date) => {
+        const hour = moment(date).format('HH');
+        const min = moment(date).format('MM');
+
+        return `${hour}:${min}`;
+      };
+      
+
+    const sendMail = (toSend) => {
+        const templateParams = {
+            to_name: toSend.user,
+            mail: toSend.email,
+            parking: toSend.parkingNumber.toString(),
+            appartment: toSend.appartment.toString(),
+            end: fixDate(toSend.end),
+        }        
+        emailjs.send("konoApp","template_r2fpkun", templateParams, "UTv9f0yFVTpB4pYr8", {});
     };
 
     const formik = useFormik({
         initialValues: {
             user: '',
+            email: '',
             hours: 0,
             appartment: '',
             license_plate: '',
@@ -61,6 +86,8 @@ const ParkingDialog = ({
                 toSend.end = moment(toSend.start).add(values.hours, 'hours').toString();
                 delete toSend.hours;
                 await reserveParking(toSend);
+                toSend.parkingNumber = parkingNumber;
+                sendMail(toSend);
                 setOpen(false);
             } catch (error) {
                 console.log(error);
@@ -88,7 +115,7 @@ const ParkingDialog = ({
             open={open}
             onClose={handleClose}>
             <DialogTitle>
-                Nueva reserva de estacionamiento
+                Nuevo registro de estacionamiento
             </DialogTitle>
             <DialogContent>
                 <Box sx={{ mt: 2 }}>
@@ -100,6 +127,7 @@ const ParkingDialog = ({
                                 options={parkingNumbers}
                                 onChange={(e, value) => {
                                     setParking(value.id);
+                                    setParkingNumber(value.label);
                                 }}
                                 renderInput={(params) => <TextField {...params} label="Estacionamientos" />}
                             />
@@ -117,6 +145,14 @@ const ParkingDialog = ({
                                 name='rut'
                             />
                             <Typography variant="string" color="error">{formik.errors.rut}</Typography>
+
+                            <TextField
+                                label='Correo electronico'
+                                onChange={formik.handleChange}
+                                id='email'
+                                name='email'
+                            />
+                            <Typography variant="string" color="error">{formik.errors.email}</Typography>
                             <TextField
                                 label='Horas'
                                 onChange={formik.handleChange}
@@ -166,5 +202,7 @@ const ParkingDialog = ({
         </Dialog>
     );
 };
+
+
 
 export default ParkingDialog;

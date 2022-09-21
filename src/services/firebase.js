@@ -2,7 +2,6 @@ const firebase = require('firebase/app');
 const firestore =  require('firebase/firestore');
 const{ getAuth, signInWithEmailAndPassword }= require("firebase/auth");
 
-const credentials = require("../serviceAccountKey.json");
 const { addDoc, updateDoc } = require('firebase/firestore');
 
 const firebaseConfig = {
@@ -18,19 +17,6 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 
 const db = firestore.getFirestore(app);
-
-const getCities = async (db) => {
-  const citiesCol =firestore.collection(db, 'Prueba');
-  const citySnapshot = await firestore.getDocs(citiesCol);
-  const cityList = citySnapshot.docs.map(doc => doc.data());
-  return cityList;
-};
-
-const showData = async () => {
-    const data = await getCities(db);
-    console.log(data);
-    return data;
-};
 
 const getParkings = async () => {
   const parkings = firestore.collection(db, 'Parkings');

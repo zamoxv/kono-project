@@ -57,7 +57,7 @@ const Home = () => {
           { email ? <Button sx={{ m: 1 }} variant="contained" onClick={() => handleLogout()}> Cerrar sesion</Button> : '' }
           { email ? <Button sx={{ m: 1 }} onClick={() => {
             setOpen(true)
-          }} variant="contained"> Nueva reserva </Button> : '' }
+          }} variant="contained"> Nuevo registro </Button> : '' }
           <Box align='center'>
             <ParkingTable parkings={parkings} openRemove={openRemove} setOpenRemove={setOpenRemove}/>
           </Box>

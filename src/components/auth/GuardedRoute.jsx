@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Navigate  } from "react-router-dom";
+import { Navigate  } from "react-router-dom";
 
 const GuardedRoute = ({ children }) => {
   const { uid } = useSelector((state) => state.user);
