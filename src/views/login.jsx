@@ -30,6 +30,9 @@ const Login = () => {
         navigate('/');
       } else {
         setError(data.message);
+        setIsLoading(false);
+        setPassword('');
+        setEmail('');
       }
 
     } catch (error) {
