@@ -45,11 +45,10 @@ const Home = () => {
   return (
     <> 
       <Card sx={{
-        backgroundColor: '#fff',
+        backgroundColor: '#D3D3D3',
       }}>
         <CardHeader width="24em" title={'Lista de registro de estacionamientos'} />
         <CardContent>
-        <Typography variant="body1">Estacionamientos disponibles: {parkings.filter((p) => !p.busy).length}</Typography>
         { !email ? <Button variant="contained" onClick={() => {
           navigate('/login')
         }}> Iniciar sesion</Button> : '' }
@@ -58,6 +57,7 @@ const Home = () => {
           { email ? <Button sx={{ m: 1 }} onClick={() => {
             setOpen(true)
           }} variant="contained"> Nuevo registro </Button> : '' }
+          <Typography variant="h2">Estacionamientos disponibles: {parkings.filter((p) => !p.busy).length}</Typography>
           <Box align='center'>
             <ParkingTable parkings={parkings} openRemove={openRemove} setOpenRemove={setOpenRemove}/>
           </Box>

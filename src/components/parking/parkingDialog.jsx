@@ -132,7 +132,7 @@ const ParkingDialog = ({
                                 renderInput={(params) => <TextField {...params} label="Estacionamientos" />}
                             />
                             <TextField
-                                label='Co-propietario'
+                                label='Usuario'
                                 onChange={formik.handleChange}
                                 id='user'
                                 name='user'

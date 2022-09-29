@@ -28,11 +28,11 @@ const ParkingRemoveDialog = ({
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Eliminar reserva"}
+          {"Eliminar registro"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            ¿Está seguro de terminar la reserva?
+            ¿Está seguro de eliminar el registro?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
